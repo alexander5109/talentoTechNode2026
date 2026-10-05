@@ -5,12 +5,18 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"start": "npm run start"
+		"start": "node index.js"
 	},
 	"keywords": [
 		"Node",
 		"Javascript"
 	],
 	"author": "Alexander Seling",
-	"license": "ISC"
+	"license": "ISC",
+	"dependencies": {
+		"nodemailer": "^10.0.14"
+	},
+	"devDependencies": {
+		"nodemon": "^1.14.10"
+	}
 }
