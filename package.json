@@ -1,0 +1,16 @@
+{
+	"name": "seling-project",
+	"version": "1.0.0",
+	"description": "Proyecto para el curso de Talento Tech - NodeJS - Segundo Cuatrimestre 2026",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"start": "npm run start"
+	},
+	"keywords": [
+		"Node",
+		"Javascript"
+	],
+	"author": "Alexander Seling",
+	"license": "ISC"
+}

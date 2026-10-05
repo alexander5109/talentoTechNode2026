@@ -1,0 +1,7 @@
+*.pyc
+*.rar
+*.lnk
+*.sln
+@*
+\.vs
+*.pyproj
