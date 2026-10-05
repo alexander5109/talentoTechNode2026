@@ -48,42 +48,55 @@ async function main() {
 				console.log(recursoDatos);
 				break;
 			}
-			const medico = recursoDatos.find(medico => medico.id === recurso.id);
-			if (!medico) {
-				throw new Error(`No existe el médico con id ${recurso.id}.`);
+			const entidad = recursoDatos.find(entidad => entidad.id === recurso.id);
+			if (!entidad) {
+				throw new Error(`No existe el ${recursoArgumento} con id ${recurso.id}.`);
 			}
-			console.log(medico);
+			console.log(entidad);
 			break;
 
 
 		case "POST":
-			const [nombre, especialidad] = argumentos.slice(2);
-			if (!nombre || !especialidad) {
-				throw new Error("Para crear un médico debe indicar nombre y especialidad.");
-			}
-			const medicosIds = recursoDatos.map(medico => medico.id)
-			const nuevoId = Math.max(...medicosIds) + 1;
-			const nuevoMedico = {
-				id: nuevoId,
-				nombre,
-				especialidad,
-			};
-			recursoDatos.push(nuevoMedico);
-			console.log("Médico creado:");
-			console.log(nuevoMedico);
-			break;
+			const campos = argumentos.slice(2);
 
+			if (campos.length === 0) {
+				throw new Error(`Para crear un ${recursoArgumento} debe indicar al menos un campo.`);
+			}
+
+			const nuevoRecurso = Object.fromEntries(
+				campos.map(campo => {
+					const [clave, ...valor] = campo.split(":");
+					if (!clave || valor.length === 0) {
+						throw new Error(`Formato inválido: "${campo}". Se espera clave:valor.`);
+					}
+					return [clave, valor.join(":")];
+				})
+			);
+
+			const ids = recursoDatos.map(recurso => recurso.id);
+			const nuevoId = Math.max(...ids) + 1;
+
+			const nuevoRegistro = {
+				id: nuevoId,
+				...nuevoRecurso,
+			};
+
+			recursoDatos.push(nuevoRegistro);
+
+			console.log(`${recursoArgumento} creado:`);
+			console.log(nuevoRegistro);
+			break;
 
 		case "DELETE":
 			if (recurso.id === null) {
-				throw new Error("Debe indicar el id del médico a eliminar.");
+				throw new Error(`Debe indicar el id del ${recursoArgumento} a eliminar.`);
 			}
 			const indice = recursoDatos.findIndex(medico => medico.id === recurso.id);
 			if (indice === -1) {
-				throw new Error(`No existe el médico con id ${recurso.id}.`);
+				throw new Error(`No existe el ${recursoArgumento} con id ${recurso.id}.`);
 			}
 			const eliminado = recursoDatos.splice(indice, 1)[0];
-			console.log("Médico eliminado:");
+			console.log(`${recursoArgumento} eliminado: `);
 			console.log(eliminado);
 			break;
 	}
